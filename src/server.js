@@ -1,42 +1,28 @@
 import express from "express";
 import pg from 'pg';
 import Joi from "joi";
+import connection from './database/db.js';
+import categories from './routers/product.routers.js';
 
-const { Pool } = pg;
+/* const { Pool } = pg;
 const connection = new Pool({
     host: 'localhost',
     port: 5432,
     user: 'postgres',
     password: '123456',
     database: 'boardcamp'
-});
+}); */
 
 const server = express();
 server.use(express.json());
 
 ////////// Categories //////////
-const postCategories = Joi.object({
-    name: Joi.string().empty().required()
-});
-
-server.get('/categories', async (req, res) => {
-    const categories = await connection.query(`SELECT * FROM categories;`);
-    res.status(200).send(categories.rows);
-});
-
-server.post('/categories', async (req, res) => {
-    try {
-        await postCategories.validateAsync(req.body);
-        await connection.query(`INSERT INTO categories (name) values($1);`, [req.body.name]);
-        res.sendStatus(201);
-    } catch (error) {
-        res.status(422).send(error.message);
-    }
-});
+server.use(categories);
 
 ////////// INTERNAL //////////
 server.get('/', async (req, res) => {
-    res.send(req.body);
+    const name = (await connection.query('SELECT name from categories where id = 1;')).rows[0].name;
+    res.send(name);
 });
 
 ////////// Server listen //////////

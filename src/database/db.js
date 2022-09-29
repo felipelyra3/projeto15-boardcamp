@@ -1,19 +1,10 @@
-import express from "express";
 import pg from 'pg';
+import dotenv from "dotenv";
+dotenv.config();
 
 const { Pool } = pg;
-
-
-try {
-    const connection = await new Pool({
-        host: 'localhost',
-        port: 5432,
-        user: 'postgres',
-        password: '123456',
-        database: 'postgres'
-    });
-} catch (error) {
-    console.log(error);
-}
+const connection = new Pool({
+    connectionString: process.env.DATABASE_URL,
+});
 
 export default connection;
