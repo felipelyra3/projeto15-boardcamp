@@ -7,21 +7,22 @@ const connection = new Pool({
     port: 5432,
     user: 'postgres',
     password: '123456',
-    database: 'postgres'
+    database: 'boardcamp'
 });
 
 const server = express();
 
-////////// INTERNAL //////////
-server.get('/', async (req, res) => {
-    const clientes = await connection.query('SELECT * FROM produtos');
-    //console.log(clientes);
-    res.send(clientes.rows);
+////////// Categories //////////
+server.get('/categories', async (req, res) => {
+    const categories = await connection.query(`SELECT * FROM categories;`);
+    res.status(200).send(categories.rows);
 });
 
-server.get('/test', (req, res) => {
-    res.send('AAAAA');
+server.post('/categories', async (req, res) => {
+
 });
+
+////////// INTERNAL //////////
 
 ////////// Server listen //////////
 server.listen(4000, () => {
