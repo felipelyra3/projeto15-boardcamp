@@ -12,6 +12,7 @@ const connection = new Pool({
 
 const server = express();
 
+////////// INTERNAL //////////
 server.get('/', async (req, res) => {
     const clientes = await connection.query('SELECT * FROM produtos');
     //console.log(clientes);
