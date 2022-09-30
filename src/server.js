@@ -2,7 +2,8 @@ import express from "express";
 import pg from 'pg';
 import Joi from "joi";
 import connection from './database/db.js';
-import categories from './routers/product.routers.js';
+import categories from './routers/products.routers.js';
+import games from './routers/games.routers.js';
 
 /* const { Pool } = pg;
 const connection = new Pool({
@@ -18,6 +19,9 @@ server.use(express.json());
 
 ////////// Categories //////////
 server.use(categories);
+
+////////// Games //////////
+server.use(games);
 
 ////////// INTERNAL //////////
 server.get('/', async (req, res) => {
