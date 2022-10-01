@@ -5,6 +5,7 @@ import connection from './database/db.js';
 import categories from './routers/products.routers.js';
 import games from './routers/games.routers.js';
 import customers from './routers/customers.routes.js';
+import rentals from './routers/rentals.routers.js';
 
 /* const { Pool } = pg;
 const connection = new Pool({
@@ -24,8 +25,11 @@ server.use(categories);
 ////////// Games //////////
 server.use(games);
 
-////////// Games //////////
+////////// Customers //////////
 server.use(customers);
+
+////////// Rentals //////////
+server.use(rentals);
 
 ////////// INTERNAL //////////
 server.get('/', async (req, res) => {
