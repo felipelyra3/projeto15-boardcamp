@@ -74,14 +74,18 @@ const putCustomers = Joi.object({
 async function PutCustomers(req, res) {
     try {
         await putCustomers.validateAsync(req.body);
-        const nCustomers = (await connection.query(`SELECT COUNT(*) FROM customers;`)).rows;
-        const customers = (await connection.query(`SELECT * FROM customers;`)).rows;
-        for (let i = 0; i < nCustomers[0].count; i++) {
+        const customersById = (await connection.query(`SELECT * FROM customers where id = $1;`, [req.params.id])).rows;
+        /* for (let i = 0; i < nCustomers[0].count; i++) {
             if (req.body.cpf === customers[i].cpf) {
                 res.sendStatus(409);
                 return;
             }
+        } */
+        if (customersById[0].cpf !== req.body.cpf) {
+            res.sendStatus(409);
+            return;
         }
+
         await connection.query(`UPDATE customers SET name=$1, phone=$2, cpf=$3, birthday=$4 WHERE id = $5;`, [req.body.name, req.body.phone, req.body.cpf, req.body.birthday, req.params.id]);
         res.sendStatus(200);
     } catch (error) {
