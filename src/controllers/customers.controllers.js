@@ -29,7 +29,7 @@ async function GetCustomersById(req, res) {
             return;
         }
 
-        res.send(customers);
+        res.send(customers[0]);
     } catch (error) {
         console.log(error);
     }
@@ -68,7 +68,7 @@ const putCustomers = Joi.object({
     name: Joi.string().empty(),
     phone: Joi.string().regex(/^[0-9]+$/).min(10).max(11),
     cpf: Joi.string().regex(/^[0-9]+$/).min(11).max(11),
-    birthday: Joi.date().format('YYYY-MM-DD').utc()
+    birthday: Joi.date().less("now")
 });
 
 async function PutCustomers(req, res) {
